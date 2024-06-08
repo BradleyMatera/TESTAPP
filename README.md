@@ -60,8 +60,9 @@ This application is designed with accessibility in mind:
 - **Keyboard Navigation**: Full keyboard navigation support.
 - **High Contrast**: Ensures readability for users with visual impairments.
 
-## Screenshots
+## License
 
+<<<<<<< HEAD
 ### Home Page
 ![Home Page](imgs/home_page_screenshot.png)
 
@@ -78,3 +79,6 @@ This application is designed with accessibility in mind:
 
 Contributions are welcome! Please open an issue or submit a pull request.
 ```
+=======
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+>>>>>>> c1e04d3 (licence)
