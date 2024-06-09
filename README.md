@@ -1,2 +1,0 @@
-# testapp
- interactive-pokedex
