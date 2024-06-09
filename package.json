@@ -2,7 +2,7 @@
   "name": "interactive-pokedex",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bradleymatera.github.io/interactive-pokedex/",
+  "homepage": "https://bradleymatera.github.io/TESTAPP/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0-beta3",
     "@fortawesome/react-fontawesome": "^0.1.14",
