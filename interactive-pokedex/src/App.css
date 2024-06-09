@@ -1,4 +1,11 @@
 body {
-  background-image: url('https://www.transparenttextures.com/patterns/white-diamond.png');
-  background-color: #f0f4f8;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
 }

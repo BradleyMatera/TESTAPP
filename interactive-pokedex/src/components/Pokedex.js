@@ -1,41 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import gsap from 'gsap';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import PokemonDetails from './PokemonDetails';
+import './Pokedex.css';
 
 const Pokedex = () => {
   const [pokemonList, setPokemonList] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    for (let i = 1; i <= 151; i++) {
-      fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        .then(response => response.json())
-        .then(data => setPokemonList(prevList => [...prevList, data]))
-        .catch(error => console.error('Error fetching Pokemon data:', error));
-    }
+    fetchPokemonList();
   }, []);
 
-  useEffect(() => {
-    gsap.from('.pokemon-card', { duration: 1, opacity: 0, stagger: 0.1 });
-  }, [pokemonList]);
+  const fetchPokemonList = async () => {
+    try {
+      const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
+      setPokemonList(response.data.results);
+    } catch (error) {
+      console.error('Error fetching Pokémon list:', error);
+    }
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredPokemonList = pokemonList.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <section id="pokedex" className="mb-8">
-      <h2 className="text-2xl font-semibold mb-4 text-indigo-500">Pokemon List</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="pokedex-grid" role="list">
-        {pokemonList.map(pokemon => (
+    <div className="pokedex">
+      <input
+        type="text"
+        placeholder="Search Pokémon"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
+      <div className="pokemon-list">
+        {filteredPokemonList.map((pokemon, index) => (
           <div
-            key={pokemon.id}
-            className="pokemon-card p-4 bg-white rounded shadow cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition duration-300"
-            role="listitem"
+            key={index}
+            role="button"
+            className="pokemon-card"
+            onClick={() => setSelectedPokemon(pokemon)}
+            onKeyPress={(e) => { if (e.key === 'Enter') setSelectedPokemon(pokemon); }}
             tabIndex="0"
-            aria-label={pokemon.name}
-            onClick={() => console.log(pokemon.name)}  // Implement your details view logic here
           >
-            <img src={pokemon.sprites.front_default} alt={pokemon.name} className="w-full rounded mb-2" />
-            <h3 className="text-xl font-semibold mb-2 text-indigo-600">{pokemon.name}</h3>
+            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} alt={pokemon.name} />
+            <p>{pokemon.name}</p>
           </div>
         ))}
       </div>
-    </section>
+      {selectedPokemon && (
+        <PokemonDetails
+          selectedPokemon={selectedPokemon}
+          onClose={() => setSelectedPokemon(null)}
+        />
+      )}
+    </div>
   );
 };
 
